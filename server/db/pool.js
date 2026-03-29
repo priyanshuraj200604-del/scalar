@@ -1,325 +1,319 @@
-const fs = require('fs');
-const path = require('path');
+const { Pool } = require('pg');
 
-const DB_PATH = path.join(__dirname, 'data.json');
-
-// Default empty database structure
-const defaultData = {
-  users: [],
-  categories: [],
-  products: [],
-  product_images: [],
-  cart_items: [],
-  orders: [],
-  order_items: [],
-  counters: {
-    users: 0,
-    categories: 0,
-    products: 0,
-    product_images: 0,
-    cart_items: 0,
-    orders: 0,
-    order_items: 0,
-  }
-};
+// Use Render's DATABASE_URL if available, otherwise fallback to local .env configuration
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false // Render requires SSL for external connections
+});
 
 class Database {
-  constructor() {
-    if (fs.existsSync(DB_PATH)) {
-      const raw = fs.readFileSync(DB_PATH, 'utf-8');
-      this.data = JSON.parse(raw);
-    } else {
-      this.data = JSON.parse(JSON.stringify(defaultData));
+  async query(text, params) {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(text, params);
+      return res;
+    } finally {
+      client.release();
     }
-    console.log('📦 Database loaded');
-  }
-
-  save() {
-    fs.writeFileSync(DB_PATH, JSON.stringify(this.data, null, 2));
-  }
-
-  // Get next ID for a table
-  nextId(table) {
-    this.data.counters[table]++;
-    return this.data.counters[table];
-  }
-
-  // --- Users ---
-  getUser(id) {
-    return this.data.users.find(u => u.id === id);
   }
 
   // --- Categories ---
-  getAllCategories() {
-    return this.data.categories.map(c => ({
-      ...c,
-      product_count: this.data.products.filter(p => p.category_id === c.id).length,
-    }));
+  async getAllCategories() {
+    const res = await this.query(`
+      SELECT c.*, COUNT(p.id) as product_count 
+      FROM categories c
+      LEFT JOIN products p ON c.id = p.category_id
+      GROUP BY c.id
+      ORDER BY c.id
+    `);
+    return res.rows;
   }
 
   // --- Products ---
-  getAllProducts({ search, category, sort } = {}) {
-    let products = [...this.data.products];
+  async getAllProducts({ search, category, sort } = {}) {
+    let queryArgs = [];
+    let whereClauses = [];
 
-    // Search filter
+    let sql = `
+      SELECT p.*, c.name as category_name, c.slug as category_slug, 
+             (SELECT image_url FROM product_images i WHERE i.product_id = p.id ORDER BY display_order LIMIT 1) as image_url
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+    `;
+
     if (search) {
-      const q = search.toLowerCase();
-      products = products.filter(p =>
-        p.name.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q))
-      );
+      whereClauses.push(`(p.name ILIKE $${queryArgs.length + 1} OR p.description ILIKE $${queryArgs.length + 1})`);
+      queryArgs.push(`%${search}%`);
     }
 
-    // Category filter
     if (category) {
-      const cat = this.data.categories.find(c => c.slug === category);
-      if (cat) {
-        products = products.filter(p => p.category_id === cat.id);
-      }
+      whereClauses.push(`c.slug = $${queryArgs.length + 1}`);
+      queryArgs.push(category);
     }
 
-    // Sort
+    if (whereClauses.length > 0) {
+      sql += ` WHERE ` + whereClauses.join(' AND ');
+    }
+
     switch (sort) {
       case 'price_asc':
-        products.sort((a, b) => a.price - b.price);
+        sql += ` ORDER BY p.price ASC`;
         break;
       case 'price_desc':
-        products.sort((a, b) => b.price - a.price);
+        sql += ` ORDER BY p.price DESC`;
         break;
       case 'rating':
-        products.sort((a, b) => b.rating - a.rating);
+        sql += ` ORDER BY p.rating DESC`;
         break;
       case 'newest':
-        products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        sql += ` ORDER BY p.created_at DESC`;
         break;
       default:
-        products.sort((a, b) => b.review_count - a.review_count);
+        sql += ` ORDER BY p.review_count DESC`;
     }
 
-    // Add category info and first image
-    return products.map(p => {
-      const cat = this.data.categories.find(c => c.id === p.category_id);
-      const images = this.data.product_images
-        .filter(i => i.product_id === p.id)
-        .sort((a, b) => a.display_order - b.display_order);
-      return {
-        ...p,
-        category_name: cat ? cat.name : null,
-        category_slug: cat ? cat.slug : null,
-        image_url: images.length > 0 ? images[0].image_url : null,
-      };
-    });
+    const res = await this.query(sql, queryArgs);
+    return res.rows.map(row => ({
+      ...row,
+      price: parseFloat(row.price),
+      original_price: row.original_price ? parseFloat(row.original_price) : null,
+      rating: parseFloat(row.rating)
+    }));
   }
 
-  getProduct(id) {
-    const p = this.data.products.find(prod => prod.id === id);
-    if (!p) return null;
+  async getProduct(id) {
+    const pRes = await this.query(`
+      SELECT p.*, c.name as category_name, c.slug as category_slug
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE p.id = $1
+    `, [id]);
 
-    const cat = this.data.categories.find(c => c.id === p.category_id);
-    const images = this.data.product_images
-      .filter(i => i.product_id === p.id)
-      .sort((a, b) => a.display_order - b.display_order);
+    if (pRes.rows.length === 0) return null;
 
+    const imgRes = await this.query(`
+      SELECT id, image_url, display_order 
+      FROM product_images 
+      WHERE product_id = $1 
+      ORDER BY display_order
+    `, [id]);
+
+    const row = pRes.rows[0];
     return {
-      ...p,
-      category_name: cat ? cat.name : null,
-      category_slug: cat ? cat.slug : null,
-      images,
+      ...row,
+      price: parseFloat(row.price),
+      original_price: row.original_price ? parseFloat(row.original_price) : null,
+      rating: parseFloat(row.rating),
+      images: imgRes.rows
     };
   }
 
   // --- Cart ---
-  getCart(userId) {
-    const items = this.data.cart_items
-      .filter(ci => ci.user_id === userId)
-      .sort((a, b) => new Date(b.added_at) - new Date(a.added_at))
-      .map(ci => {
-        const p = this.data.products.find(prod => prod.id === ci.product_id);
-        const images = this.data.product_images
-          .filter(i => i.product_id === ci.product_id)
-          .sort((a, b) => a.display_order - b.display_order);
-        return {
-          id: ci.id,
-          quantity: ci.quantity,
-          added_at: ci.added_at,
-          product_id: p.id,
-          name: p.name,
-          price: p.price,
-          original_price: p.original_price,
-          stock: p.stock,
-          image_url: images.length > 0 ? images[0].image_url : null,
-        };
-      });
+  async getCart(userId) {
+    const res = await this.query(`
+      SELECT ci.id, ci.quantity, ci.added_at, ci.product_id, 
+             p.name, p.price, p.original_price, p.stock,
+             (SELECT image_url FROM product_images i WHERE i.product_id = p.id ORDER BY display_order LIMIT 1) as image_url
+      FROM cart_items ci
+      JOIN products p ON ci.product_id = p.id
+      WHERE ci.user_id = $1
+      ORDER BY ci.added_at DESC
+    `, [userId]);
+
+    const items = res.rows.map(row => ({
+      ...row,
+      price: parseFloat(row.price),
+      original_price: row.original_price ? parseFloat(row.original_price) : null
+    }));
 
     const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
     return {
       items,
       subtotal: subtotal.toFixed(2),
-      itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+      itemCount
     };
   }
 
-  addToCart(userId, productId, quantity = 1) {
-    const product = this.data.products.find(p => p.id === productId);
-    if (!product) throw { statusCode: 404, message: 'Product not found' };
+  async addToCart(userId, productId, quantity = 1) {
+    // Check product stock
+    const pRes = await this.query(`SELECT stock, name FROM products WHERE id = $1`, [productId]);
+    if (pRes.rows.length === 0) throw { statusCode: 404, message: 'Product not found' };
+    const stock = pRes.rows[0].stock;
 
-    const existing = this.data.cart_items.find(
-      ci => ci.user_id === userId && ci.product_id === productId
-    );
+    // Check existing cart item
+    const existRes = await this.query(`SELECT quantity FROM cart_items WHERE user_id = $1 AND product_id = $2`, [userId, productId]);
+    const existing = existRes.rows[0];
 
     const newQty = existing ? existing.quantity + quantity : quantity;
-    if (newQty > product.stock) {
-      throw { statusCode: 400, message: 'Not enough stock available' };
-    }
+    if (newQty > stock) throw { statusCode: 400, message: 'Not enough stock available' };
 
     if (existing) {
-      existing.quantity = newQty;
-      existing.added_at = new Date().toISOString();
-      this.save();
-      return existing;
+      const res = await this.query(`
+        UPDATE cart_items SET quantity = $1, added_at = CURRENT_TIMESTAMP
+        WHERE user_id = $2 AND product_id = $3 RETURNING *
+      `, [newQty, userId, productId]);
+      return res.rows[0];
     } else {
-      const item = {
-        id: this.nextId('cart_items'),
-        user_id: userId,
-        product_id: productId,
-        quantity,
-        added_at: new Date().toISOString(),
-      };
-      this.data.cart_items.push(item);
-      this.save();
-      return item;
+      const res = await this.query(`
+        INSERT INTO cart_items (user_id, product_id, quantity) 
+        VALUES ($1, $2, $3) RETURNING *
+      `, [userId, productId, quantity]);
+      return res.rows[0];
     }
   }
 
-  updateCartItem(id, userId, quantity) {
-    const ci = this.data.cart_items.find(item => item.id === id && item.user_id === userId);
-    if (!ci) throw { statusCode: 404, message: 'Cart item not found' };
+  async updateCartItem(id, userId, quantity) {
+    const ciRes = await this.query(`SELECT ci.product_id, ci.quantity, p.stock 
+      FROM cart_items ci 
+      JOIN products p ON ci.product_id = p.id 
+      WHERE ci.id = $1 AND ci.user_id = $2`, [id, userId]);
 
-    const product = this.data.products.find(p => p.id === ci.product_id);
-    if (quantity > product.stock) {
-      throw { statusCode: 400, message: 'Not enough stock available' };
-    }
+    if (ciRes.rows.length === 0) throw { statusCode: 404, message: 'Cart item not found' };
+    const { stock } = ciRes.rows[0];
 
-    ci.quantity = quantity;
-    this.save();
-    return ci;
+    if (quantity > stock) throw { statusCode: 400, message: 'Not enough stock available' };
+
+    const updateRes = await this.query(`
+      UPDATE cart_items SET quantity = $1 WHERE id = $2 AND user_id = $3 RETURNING *
+    `, [quantity, id, userId]);
+
+    return updateRes.rows[0];
   }
 
-  removeFromCart(id, userId) {
-    const index = this.data.cart_items.findIndex(item => item.id === id && item.user_id === userId);
-    if (index === -1) throw { statusCode: 404, message: 'Cart item not found' };
-    this.data.cart_items.splice(index, 1);
-    this.save();
+  async removeFromCart(id, userId) {
+    const res = await this.query(`DELETE FROM cart_items WHERE id = $1 AND user_id = $2 RETURNING id`, [id, userId]);
+    if (res.rowCount === 0) throw { statusCode: 404, message: 'Cart item not found' };
   }
 
   // --- Orders ---
-  placeOrder(userId, shippingInfo) {
-    const cartItems = this.data.cart_items.filter(ci => ci.user_id === userId);
-    if (cartItems.length === 0) {
-      throw { statusCode: 400, message: 'Cart is empty' };
-    }
+  async placeOrder(userId, shippingInfo) {
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
 
-    // Validate stock
-    const itemsWithProducts = cartItems.map(ci => {
-      const p = this.data.products.find(prod => prod.id === ci.product_id);
-      if (ci.quantity > p.stock) {
-        throw { statusCode: 400, message: `Not enough stock for "${p.name}". Available: ${p.stock}` };
+      // 1. Get cart items
+      const cartRes = await client.query(`
+        SELECT ci.product_id, ci.quantity, p.price, p.stock, p.name
+        FROM cart_items ci
+        JOIN products p ON ci.product_id = p.id
+        WHERE ci.user_id = $1
+      `, [userId]);
+
+      const cartItems = cartRes.rows;
+      if (cartItems.length === 0) throw { statusCode: 400, message: 'Cart is empty' };
+
+      let totalAmount = 0;
+
+      // 2. Validate stock and calculate total
+      for (const item of cartItems) {
+        if (item.quantity > item.stock) {
+          throw { statusCode: 400, message: `Not enough stock for "${item.name}". Available: ${item.stock}` };
+        }
+        totalAmount += parseFloat(item.price) * item.quantity;
       }
-      return { ...ci, product: p };
-    });
 
-    // Calculate total
-    const totalAmount = itemsWithProducts.reduce(
-      (sum, item) => sum + (item.product.price * item.quantity), 0
-    );
+      // 3. Create order
+      const timestamp = Date.now().toString(36).toUpperCase();
+      const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+      const orderNumber = `AMZ-${timestamp}-${random}`;
 
-    // Create order
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const orderNumber = `AMZ-${timestamp}-${random}`;
+      const orderRes = await client.query(`
+        INSERT INTO orders (user_id, order_number, total_amount, status, shipping_name, shipping_address, shipping_city, shipping_state, shipping_zip, shipping_phone)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *
+      `, [
+        userId, orderNumber, totalAmount, 'Placed',
+        shippingInfo.shipping_name, shippingInfo.shipping_address, shippingInfo.shipping_city,
+        shippingInfo.shipping_state, shippingInfo.shipping_zip, shippingInfo.shipping_phone
+      ]);
+      const order = orderRes.rows[0];
 
-    const order = {
-      id: this.nextId('orders'),
-      user_id: userId,
-      order_number: orderNumber,
-      total_amount: parseFloat(totalAmount.toFixed(2)),
-      status: 'Placed',
-      ...shippingInfo,
-      created_at: new Date().toISOString(),
-    };
-    this.data.orders.push(order);
+      // 4. Create order items and update stock
+      const orderItemsToReturn = [];
+      for (const item of cartItems) {
+        await client.query(`
+          INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+          VALUES ($1, $2, $3, $4)
+        `, [order.id, item.product_id, item.quantity, item.price]);
 
-    // Create order items and update stock
-    const orderItems = [];
-    for (const item of itemsWithProducts) {
-      const oi = {
-        id: this.nextId('order_items'),
-        order_id: order.id,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        price_at_purchase: item.product.price,
+        await client.query(`
+          UPDATE products SET stock = stock - $1 WHERE id = $2
+        `, [item.quantity, item.product_id]);
+
+        orderItemsToReturn.push({
+          product_id: item.product_id,
+          product_name: item.name,
+          quantity: item.quantity,
+          price: parseFloat(item.price)
+        });
+      }
+
+      // 5. Clear cart
+      await client.query(`DELETE FROM cart_items WHERE user_id = $1`, [userId]);
+
+      await client.query('COMMIT');
+
+      return {
+        order: {
+          ...order,
+          total_amount: parseFloat(order.total_amount)
+        },
+        items: orderItemsToReturn
       };
-      this.data.order_items.push(oi);
-      orderItems.push({
-        product_id: item.product_id,
-        product_name: item.product.name,
-        quantity: item.quantity,
-        price: item.product.price,
-      });
+    } catch (e) {
+      await client.query('ROLLBACK');
+      throw e;
+    } finally {
+      client.release();
+    }
+  }
 
-      // Update stock
-      item.product.stock -= item.quantity;
+  async getOrders(userId) {
+    const res = await this.query(`
+      SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC
+    `, [userId]);
+
+    const orders = res.rows;
+    for (let order of orders) {
+      order.total_amount = parseFloat(order.total_amount);
+      const itemsRes = await this.query(`
+        SELECT oi.*, p.name as product_name, 
+               (SELECT image_url FROM product_images i WHERE i.product_id = oi.product_id ORDER BY display_order LIMIT 1) as image_url
+        FROM order_items oi
+        LEFT JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = $1
+      `, [order.id]);
+      
+      order.items = itemsRes.rows.map(row => ({
+        ...row,
+        price_at_purchase: parseFloat(row.price_at_purchase)
+      }));
     }
 
-    // Clear cart
-    this.data.cart_items = this.data.cart_items.filter(ci => ci.user_id !== userId);
-
-    this.save();
-
-    return { order, items: orderItems };
+    return orders;
   }
 
-  getOrders(userId) {
-    const orders = this.data.orders
-      .filter(o => o.user_id === userId)
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  async getOrder(id, userId) {
+    const res = await this.query(`SELECT * FROM orders WHERE id = $1 AND user_id = $2`, [id, userId]);
+    if (res.rows.length === 0) return null;
+    const order = res.rows[0];
+    order.total_amount = parseFloat(order.total_amount);
 
-    return orders.map(order => ({
-      ...order,
-      items: this.data.order_items
-        .filter(oi => oi.order_id === order.id)
-        .map(oi => {
-          const p = this.data.products.find(prod => prod.id === oi.product_id);
-          const images = this.data.product_images
-            .filter(i => i.product_id === oi.product_id)
-            .sort((a, b) => a.display_order - b.display_order);
-          return {
-            ...oi,
-            product_name: p ? p.name : 'Unknown Product',
-            image_url: images.length > 0 ? images[0].image_url : null,
-          };
-        }),
+    const itemsRes = await this.query(`
+        SELECT oi.*, p.name as product_name, 
+               (SELECT image_url FROM product_images i WHERE i.product_id = oi.product_id ORDER BY display_order LIMIT 1) as image_url
+        FROM order_items oi
+        LEFT JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = $1
+    `, [order.id]);
+
+    order.items = itemsRes.rows.map(row => ({
+      ...row,
+      price_at_purchase: parseFloat(row.price_at_purchase)
     }));
-  }
 
-  getOrder(id, userId) {
-    const order = this.data.orders.find(o => o.id === id && o.user_id === userId);
-    if (!order) return null;
-
-    const items = this.data.order_items
-      .filter(oi => oi.order_id === order.id)
-      .map(oi => {
-        const p = this.data.products.find(prod => prod.id === oi.product_id);
-        const images = this.data.product_images
-          .filter(i => i.product_id === oi.product_id)
-          .sort((a, b) => a.display_order - b.display_order);
-        return {
-          ...oi,
-          product_name: p ? p.name : 'Unknown Product',
-          image_url: images.length > 0 ? images[0].image_url : null,
-        };
-      });
-
-    return { ...order, items };
+    return order;
   }
 }
 

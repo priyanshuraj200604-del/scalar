@@ -3,10 +3,10 @@ const router = express.Router();
 const db = require('../db/pool');
 
 // GET /api/products - List all products with optional search and category filter
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const { search, category, sort } = req.query;
-    const products = db.getAllProducts({ search, category, sort });
+    const products = await db.getAllProducts({ search, category, sort });
     res.json(products);
   } catch (err) {
     next(err);
@@ -14,10 +14,10 @@ router.get('/', (req, res, next) => {
 });
 
 // GET /api/products/:id - Get single product with images
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const product = db.getProduct(id);
+    const product = await db.getProduct(id);
 
     if (!product) {
       return res.status(404).json({ error: { message: 'Product not found' } });

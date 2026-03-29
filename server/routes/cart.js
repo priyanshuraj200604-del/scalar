@@ -5,9 +5,9 @@ const db = require('../db/pool');
 const DEFAULT_USER_ID = 1;
 
 // GET /api/cart - Get cart items for default user
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const cart = db.getCart(DEFAULT_USER_ID);
+    const cart = await db.getCart(DEFAULT_USER_ID);
     res.json(cart);
   } catch (err) {
     next(err);
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 });
 
 // POST /api/cart - Add item to cart
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const { product_id, quantity = 1 } = req.body;
 
@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
       return res.status(400).json({ error: { message: 'product_id is required' } });
     }
 
-    const result = db.addToCart(DEFAULT_USER_ID, product_id, quantity);
+    const result = await db.addToCart(DEFAULT_USER_ID, product_id, quantity);
     res.status(201).json(result);
   } catch (err) {
     if (err.statusCode) {
@@ -34,7 +34,7 @@ router.post('/', (req, res, next) => {
 });
 
 // PUT /api/cart/:id - Update cart item quantity
-router.put('/:id', (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const { quantity } = req.body;
@@ -43,7 +43,7 @@ router.put('/:id', (req, res, next) => {
       return res.status(400).json({ error: { message: 'quantity must be at least 1' } });
     }
 
-    const result = db.updateCartItem(id, DEFAULT_USER_ID, quantity);
+    const result = await db.updateCartItem(id, DEFAULT_USER_ID, quantity);
     res.json(result);
   } catch (err) {
     if (err.statusCode) {
@@ -54,10 +54,10 @@ router.put('/:id', (req, res, next) => {
 });
 
 // DELETE /api/cart/:id - Remove item from cart
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    db.removeFromCart(id, DEFAULT_USER_ID);
+    await db.removeFromCart(id, DEFAULT_USER_ID);
     res.json({ message: 'Item removed from cart' });
   } catch (err) {
     if (err.statusCode) {

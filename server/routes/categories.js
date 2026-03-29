@@ -3,9 +3,9 @@ const router = express.Router();
 const db = require('../db/pool');
 
 // GET /api/categories - List all categories with product counts
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const categories = db.getAllCategories();
+    const categories = await db.getAllCategories();
     res.json(categories);
   } catch (err) {
     next(err);

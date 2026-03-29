@@ -5,7 +5,7 @@ const db = require('../db/pool');
 const DEFAULT_USER_ID = 1;
 
 // POST /api/orders - Place an order from cart
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const { shipping_name, shipping_address, shipping_city, shipping_state, shipping_zip, shipping_phone } = req.body;
 
@@ -14,7 +14,7 @@ router.post('/', (req, res, next) => {
       return res.status(400).json({ error: { message: 'All shipping fields are required' } });
     }
 
-    const result = db.placeOrder(DEFAULT_USER_ID, {
+    const result = await db.placeOrder(DEFAULT_USER_ID, {
       shipping_name,
       shipping_address,
       shipping_city,
@@ -33,9 +33,9 @@ router.post('/', (req, res, next) => {
 });
 
 // GET /api/orders - List all orders for default user
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const orders = db.getOrders(DEFAULT_USER_ID);
+    const orders = await db.getOrders(DEFAULT_USER_ID);
     res.json(orders);
   } catch (err) {
     next(err);
@@ -43,10 +43,10 @@ router.get('/', (req, res, next) => {
 });
 
 // GET /api/orders/:id - Get single order
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const order = db.getOrder(id, DEFAULT_USER_ID);
+    const order = await db.getOrder(id, DEFAULT_USER_ID);
 
     if (!order) {
       return res.status(404).json({ error: { message: 'Order not found' } });
