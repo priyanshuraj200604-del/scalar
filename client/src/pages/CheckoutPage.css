@@ -1,0 +1,159 @@
+.checkout-page {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.checkout-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--amazon-border-light);
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.checkout-card {
+  background: var(--amazon-white);
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.checkout-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--amazon-orange);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+/* Review Items */
+.checkout-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--amazon-border-light);
+}
+.checkout-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-item-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.checkout-item-info {
+  flex: 1;
+}
+.checkout-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.checkout-item-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--amazon-deal-red);
+}
+
+/* Sidebar */
+.checkout-sidebar {
+  position: sticky;
+  top: 120px;
+}
+
+.checkout-summary-box {
+  background: var(--amazon-white);
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--amazon-border);
+}
+
+.checkout-terms {
+  font-size: 11px;
+  color: var(--amazon-text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.checkout-divider {
+  height: 1px;
+  background: var(--amazon-border-light);
+  margin: 12px 0;
+}
+
+.checkout-summary-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.summary-free {
+  color: var(--amazon-in-stock);
+}
+.summary-total {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--amazon-deal-red);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  .checkout-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .checkout-title {
+    font-size: 22px;
+  }
+}

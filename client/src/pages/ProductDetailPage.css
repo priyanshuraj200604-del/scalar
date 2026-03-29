@@ -1,0 +1,275 @@
+.product-detail-page {
+  padding-top: 12px;
+  padding-bottom: 40px;
+}
+
+/* Breadcrumb */
+.pdp-breadcrumb {
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: var(--amazon-text-secondary);
+}
+.pdp-breadcrumb a {
+  color: var(--amazon-link);
+  text-decoration: none;
+}
+.pdp-breadcrumb a:hover {
+  color: var(--amazon-link-hover);
+  text-decoration: underline;
+}
+.breadcrumb-sep {
+  margin: 0 6px;
+  color: #999;
+}
+.breadcrumb-current {
+  color: var(--amazon-text-secondary);
+}
+
+/* Layout */
+.pdp-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr 280px;
+  gap: 24px;
+  background: var(--amazon-white);
+  padding: 20px;
+  border-radius: var(--radius-sm);
+}
+
+/* Left - Images */
+.pdp-left {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+/* Center - Product Info */
+.pdp-center {
+  min-width: 0;
+}
+
+.pdp-title {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--amazon-text);
+  margin-bottom: 4px;
+}
+
+.pdp-rating {
+  margin: 8px 0;
+}
+
+.pdp-divider {
+  height: 1px;
+  background: var(--amazon-border-light);
+  margin: 12px 0;
+}
+
+/* Price Section */
+.pdp-deal-badge {
+  margin-bottom: 4px;
+}
+.deal-label {
+  background: var(--amazon-deal-red);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+.pdp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.pdp-discount {
+  color: var(--amazon-deal-red);
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.pdp-price {
+  display: inline;
+}
+.pdp-price-symbol {
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  top: -8px;
+}
+.pdp-price-whole {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+}
+.pdp-price-decimal {
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  top: -8px;
+}
+
+.pdp-mrp {
+  font-size: 13px;
+  color: var(--amazon-text-secondary);
+  margin-top: 2px;
+}
+
+.pdp-tax-info {
+  font-size: 12px;
+  color: var(--amazon-text-secondary);
+  margin-top: 2px;
+}
+
+/* Sections */
+.pdp-section {
+  margin: 16px 0;
+}
+.pdp-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.pdp-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--amazon-text);
+}
+
+/* Specs Table */
+.pdp-specs {
+  border: 1px solid var(--amazon-border-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.pdp-spec-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  font-size: 13px;
+}
+.pdp-spec-row:nth-child(even) {
+  background: #f7f7f7;
+}
+.spec-key {
+  padding: 8px 12px;
+  font-weight: 600;
+  color: var(--amazon-text);
+  border-right: 1px solid var(--amazon-border-light);
+}
+.spec-value {
+  padding: 8px 12px;
+  color: var(--amazon-text);
+}
+
+/* Right - Buy Box */
+.pdp-right {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.pdp-buy-box {
+  border: 1px solid var(--amazon-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buy-box-price {
+  font-size: 18px;
+}
+
+.buy-box-delivery {
+  font-size: 13px;
+  color: var(--amazon-text-secondary);
+}
+.buy-box-delivery .delivery-free {
+  font-weight: 700;
+  color: var(--amazon-text);
+}
+
+.buy-box-stock .stock-in {
+  color: var(--amazon-in-stock);
+  font-size: 16px;
+  font-weight: 500;
+}
+.buy-box-stock .stock-out {
+  color: var(--amazon-deal-red);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.buy-box-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.buy-box-quantity label {
+  font-weight: 500;
+}
+.buy-box-quantity .quantity-select {
+  padding: 5px 10px;
+  border: 1px solid var(--amazon-border);
+  border-radius: 8px;
+  background: #f0f2f2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.buy-box-meta {
+  border-top: 1px solid var(--amazon-border-light);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+.buy-box-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.meta-label {
+  color: var(--amazon-text-secondary);
+}
+.meta-value {
+  color: var(--amazon-text);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pdp-layout {
+    grid-template-columns: 350px 1fr;
+  }
+  .pdp-right {
+    grid-column: 1 / -1;
+    position: static;
+  }
+  .pdp-buy-box {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pdp-layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  .pdp-left {
+    position: static;
+  }
+  .pdp-title {
+    font-size: 18px;
+  }
+  .pdp-discount {
+    font-size: 20px;
+  }
+  .pdp-price-whole {
+    font-size: 22px;
+  }
+  .pdp-buy-box {
+    max-width: 100%;
+  }
+}

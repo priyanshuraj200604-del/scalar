@@ -1,0 +1,803 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "created_at": "2026-03-29T10:54:05.223Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electronics",
+      "slug": "electronics",
+      "image_url": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400"
+    },
+    {
+      "id": 2,
+      "name": "Books",
+      "slug": "books",
+      "image_url": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400"
+    },
+    {
+      "id": 3,
+      "name": "Clothing",
+      "slug": "clothing",
+      "image_url": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400"
+    },
+    {
+      "id": 4,
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "image_url": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400"
+    },
+    {
+      "id": 5,
+      "name": "Sports & Outdoors",
+      "slug": "sports-outdoors",
+      "image_url": "https://images.unsplash.com/photo-1461896836934-bd45ba8fcbc7?w=400"
+    },
+    {
+      "id": 6,
+      "name": "Beauty & Personal Care",
+      "slug": "beauty",
+      "image_url": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
+      "description": "Industry-leading noise cancellation with Auto NC Optimizer. Crystal clear hands-free calling with 4 beamforming microphones. Up to 30 hours of battery life with quick charging.",
+      "specifications": "Driver: 30mm | Frequency: 4Hz-40kHz | Battery: 30hrs | Weight: 250g | Bluetooth: 5.2 | NFC: Yes",
+      "price": 299.99,
+      "original_price": 399.99,
+      "stock": 45,
+      "category_id": 1,
+      "rating": 4.5,
+      "review_count": 12847,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 2,
+      "name": "Apple MacBook Air 15\" M3 Chip",
+      "description": "Supercharged by M3 chip. 15.3-inch Liquid Retina display. Up to 18 hours of battery life. Fanless design for silent operation.",
+      "specifications": "Chip: Apple M3 | RAM: 8GB | Storage: 256GB SSD | Display: 15.3\" Liquid Retina | Battery: 18hrs | Weight: 1.51kg",
+      "price": 1299,
+      "original_price": 1499,
+      "stock": 20,
+      "category_id": 1,
+      "rating": 4.7,
+      "review_count": 3241,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 3,
+      "name": "Samsung Galaxy S24 Ultra 256GB",
+      "description": "Galaxy AI is here. Titanium frame with 6.8\" Dynamic AMOLED 2X display. 200MP camera with AI-enhanced photography.",
+      "specifications": "Display: 6.8\" QHD+ | Processor: Snapdragon 8 Gen 3 | RAM: 12GB | Storage: 256GB | Camera: 200MP | Battery: 5000mAh",
+      "price": 1199.99,
+      "original_price": 1319.99,
+      "stock": 35,
+      "category_id": 1,
+      "rating": 4.4,
+      "review_count": 8934,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 4,
+      "name": "Apple AirPods Pro (2nd Generation)",
+      "description": "Active Noise Cancellation up to 2x more effective. Adaptive Transparency. Personalized Spatial Audio. MagSafe charging case.",
+      "specifications": "Driver: Apple H2 | ANC: Yes | Battery: 6hrs (30hrs with case) | Water Resistant: IPX4 | Weight: 5.3g each",
+      "price": 249,
+      "original_price": 279,
+      "stock": 99,
+      "category_id": 1,
+      "rating": 4.6,
+      "review_count": 45231,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 5,
+      "name": "LG C3 55\" 4K OLED Smart TV",
+      "description": "Self-lit OLED pixels create perfect blacks and over a billion colors. Dolby Vision, Dolby Atmos, and Filmmaker Mode.",
+      "specifications": "Display: 55\" 4K OLED | HDR: Dolby Vision, HDR10, HLG | Refresh: 120Hz | HDMI: 4x 2.1 | Smart TV: webOS 23",
+      "price": 1296.99,
+      "original_price": 1799.99,
+      "stock": 15,
+      "category_id": 1,
+      "rating": 4.6,
+      "review_count": 6712,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 6,
+      "name": "Logitech MX Master 3S Wireless Mouse",
+      "description": "Precision sensor tracks on any surface including glass. Quiet clicks with MagSpeed scroll wheel. USB-C quick charging.",
+      "specifications": "Sensor: 8000 DPI | Battery: 70 days | Connectivity: Bluetooth, USB | Weight: 141g | Buttons: 7",
+      "price": 99.99,
+      "original_price": 109.99,
+      "stock": 80,
+      "category_id": 1,
+      "rating": 4.5,
+      "review_count": 15432,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 7,
+      "name": "JBL Charge 5 Portable Bluetooth Speaker",
+      "description": "Bold JBL Original Pro Sound with deep bass. Built-in powerbank. IP67 waterproof and dustproof. 20 hours of playtime.",
+      "specifications": "Power: 40W | Battery: 20hrs | Waterproof: IP67 | Bluetooth: 5.1 | Weight: 960g | USB-C",
+      "price": 179.95,
+      "original_price": 189.95,
+      "stock": 60,
+      "category_id": 1,
+      "rating": 4.7,
+      "review_count": 28901,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 8,
+      "name": "Atomic Habits by James Clear",
+      "description": "Proven framework for improving every day. Practical strategies for forming good habits and breaking bad ones.",
+      "specifications": "Pages: 320 | Publisher: Avery | Language: English | ISBN: 978-0735211292 | Format: Paperback",
+      "price": 11.98,
+      "original_price": 16.99,
+      "stock": 200,
+      "category_id": 2,
+      "rating": 4.8,
+      "review_count": 98432,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 9,
+      "name": "The Psychology of Money by Morgan Housel",
+      "description": "Timeless lessons on wealth, greed, and happiness. 19 short stories exploring the strange ways people think about money.",
+      "specifications": "Pages: 256 | Publisher: Harriman House | Language: English | ISBN: 978-0857197689 | Format: Paperback",
+      "price": 14.99,
+      "original_price": 19.99,
+      "stock": 150,
+      "category_id": 2,
+      "rating": 4.7,
+      "review_count": 67234,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 10,
+      "name": "System Design Interview by Alex Xu",
+      "description": "Covers system design questions asked in large-scale distributed system interviews. Step-by-step framework.",
+      "specifications": "Pages: 322 | Publisher: Byte Code LLC | Language: English | ISBN: 978-1736049105 | Format: Paperback",
+      "price": 33.99,
+      "original_price": 39.99,
+      "stock": 80,
+      "category_id": 2,
+      "rating": 4.6,
+      "review_count": 12456,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 11,
+      "name": "Clean Code by Robert C. Martin",
+      "description": "A Handbook of Agile Software Craftsmanship. If code is not clean, it can bring development to its knees.",
+      "specifications": "Pages: 464 | Publisher: Pearson | Language: English | ISBN: 978-0132350884 | Format: Paperback",
+      "price": 34.89,
+      "original_price": 49.99,
+      "stock": 65,
+      "category_id": 2,
+      "rating": 4.4,
+      "review_count": 8901,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 12,
+      "name": "Dune by Frank Herbert",
+      "description": "Set on the desert planet Arrakis, the story of Paul Atreides and a great family ambition.",
+      "specifications": "Pages: 688 | Publisher: Ace | Language: English | ISBN: 978-0441172719 | Format: Mass Market Paperback",
+      "price": 9.99,
+      "original_price": 12.99,
+      "stock": 300,
+      "category_id": 2,
+      "rating": 4.7,
+      "review_count": 45678,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 13,
+      "name": "Nike Air Max 270 Mens Running Shoes",
+      "description": "Visible Air cushioning and an ultra-comfortable fit. Biggest heel Air unit for a super-soft ride.",
+      "specifications": "Material: Mesh upper | Sole: Rubber | Cushioning: Air Max 270 | Closure: Lace-up | Style: Casual",
+      "price": 129.99,
+      "original_price": 159.99,
+      "stock": 40,
+      "category_id": 3,
+      "rating": 4.3,
+      "review_count": 23456,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 14,
+      "name": "Levis 501 Original Fit Jeans",
+      "description": "The original jean. Sits at the waist with a regular fit through the thigh. Button fly. 100% cotton.",
+      "specifications": "Material: 100% Cotton | Fit: Regular | Rise: Mid | Closure: Button Fly | Wash: Stonewash",
+      "price": 49.5,
+      "original_price": 69.5,
+      "stock": 90,
+      "category_id": 3,
+      "rating": 4.4,
+      "review_count": 34567,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 15,
+      "name": "The North Face Thermoball Eco Jacket",
+      "description": "Lightweight synthetic insulated jacket with recycled materials. ThermoBall Eco insulation.",
+      "specifications": "Material: Recycled Polyester | Insulation: ThermoBall Eco | Water Resistant: DWR | Weight: 380g",
+      "price": 199,
+      "original_price": 230,
+      "stock": 25,
+      "category_id": 3,
+      "rating": 4.6,
+      "review_count": 8923,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 16,
+      "name": "Adidas Ultraboost Light Running Shoes",
+      "description": "Epic energy with 30% Light BOOST cushioning. Continental Rubber outsole for grip.",
+      "specifications": "Material: Primeknit upper | Sole: Continental Rubber | Cushioning: BOOST | Drop: 10mm",
+      "price": 189.99,
+      "original_price": 199.99,
+      "stock": 55,
+      "category_id": 3,
+      "rating": 4.5,
+      "review_count": 19876,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 17,
+      "name": "Calvin Klein Classic Fit Dress Shirt",
+      "description": "Refined non-iron cotton dress shirt. Regular fit with spread collar and button cuffs.",
+      "specifications": "Material: 100% Cotton | Fit: Regular | Collar: Spread | Care: Non-Iron | Style: Dress",
+      "price": 39.99,
+      "original_price": 59.99,
+      "stock": 120,
+      "category_id": 3,
+      "rating": 4.2,
+      "review_count": 5678,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 18,
+      "name": "Instant Pot Duo 7-in-1 Electric Pressure Cooker",
+      "description": "7 appliances in 1: pressure cooker, slow cooker, rice cooker, steamer, sauté, yogurt, warmer.",
+      "specifications": "Capacity: 6 Qt | Power: 1000W | Programs: 13 | Material: Stainless Steel | Dishwasher Safe: Yes",
+      "price": 89.95,
+      "original_price": 109.95,
+      "stock": 70,
+      "category_id": 4,
+      "rating": 4.7,
+      "review_count": 156789,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 19,
+      "name": "Dyson V15 Detect Cordless Vacuum",
+      "description": "Most powerful cordless vacuum. Laser reveals microscopic dust. Piezo sensor counts particles.",
+      "specifications": "Power: 230 AW | Battery: 60 min | Weight: 6.8 lbs | Bin: 0.2 gal | Filtration: HEPA",
+      "price": 649.99,
+      "original_price": 749.99,
+      "stock": 18,
+      "category_id": 4,
+      "rating": 4.5,
+      "review_count": 12345,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 20,
+      "name": "KitchenAid Artisan Series 5-Qt Stand Mixer",
+      "description": "Iconic stand mixer with 10 speeds. Planetary mixing action. 5-quart stainless bowl.",
+      "specifications": "Capacity: 5 Qt | Power: 325W | Speeds: 10 | Color: Empire Red | Weight: 26 lbs",
+      "price": 349.99,
+      "original_price": 449.99,
+      "stock": 22,
+      "category_id": 4,
+      "rating": 4.8,
+      "review_count": 89012,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 21,
+      "name": "Nespresso Vertuo Next Coffee Machine",
+      "description": "Brews 5 cup sizes using Centrifusion technology. One-button operation. 12 welcome capsules.",
+      "specifications": "Pump: 19 bar | Water Tank: 37 oz | Sizes: 5 | Heat-up: 30 sec",
+      "price": 159,
+      "original_price": 209,
+      "stock": 40,
+      "category_id": 4,
+      "rating": 4.3,
+      "review_count": 23456,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 22,
+      "name": "iRobot Roomba j7+ Self-Emptying Robot Vacuum",
+      "description": "Identifies obstacles. Clean Base empties itself for 60 days. Smart mapping learns your home.",
+      "specifications": "Suction: 10x | Battery: 75 min | Navigation: PrecisionVision | WiFi: Yes | Alexa: Yes",
+      "price": 599.99,
+      "original_price": 799.99,
+      "stock": 12,
+      "category_id": 4,
+      "rating": 4.4,
+      "review_count": 34567,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 23,
+      "name": "YETI Rambler 36 oz Bottle",
+      "description": "Keeps water ice-cold or coffee hot. 18/8 stainless steel with double-wall vacuum insulation.",
+      "specifications": "Capacity: 36 oz | Material: 18/8 Stainless Steel | Insulation: Double-wall Vacuum | BPA Free: Yes",
+      "price": 45,
+      "original_price": 50,
+      "stock": 95,
+      "category_id": 5,
+      "rating": 4.8,
+      "review_count": 45678,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 24,
+      "name": "Fitbit Charge 6 Fitness Tracker",
+      "description": "Advanced health tracker with built-in GPS. Heart rate, sleep, stress tracking. 7-day battery.",
+      "specifications": "Display: AMOLED | Battery: 7 days | GPS: Built-in | Water Resistant: 50m | Sensors: SpO2, ECG",
+      "price": 159.95,
+      "original_price": 179.95,
+      "stock": 50,
+      "category_id": 5,
+      "rating": 4.3,
+      "review_count": 12345,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 25,
+      "name": "Coleman Sundome 4-Person Tent",
+      "description": "Easy setup dome tent. WeatherTec system. Fits 1 queen airbed. Great for car camping.",
+      "specifications": "Capacity: 4 Person | Dimensions: 9x7 ft | Height: 4.11 ft | Weight: 9.1 lbs | Seasons: 3",
+      "price": 79.99,
+      "original_price": 119.99,
+      "stock": 30,
+      "category_id": 5,
+      "rating": 4.4,
+      "review_count": 23456,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 26,
+      "name": "Bowflex SelectTech 552 Adjustable Dumbbells",
+      "description": "Replace 15 sets of weights with unique dial system. 5 to 52.5 lbs in 2.5 lb increments.",
+      "specifications": "Weight: 5-52.5 lbs | Increments: 2.5 lbs | Length: 16.9\" | Material: Steel/Nylon",
+      "price": 349,
+      "original_price": 429,
+      "stock": 15,
+      "category_id": 5,
+      "rating": 4.6,
+      "review_count": 8901,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 27,
+      "name": "Hydro Flask 32 oz Wide Mouth Water Bottle",
+      "description": "TempShield insulation. Cold 24 hours, hot 12 hours. BPA-free. Lifetime warranty.",
+      "specifications": "Capacity: 32 oz | Material: 18/8 Stainless Steel | Insulation: TempShield | BPA Free: Yes",
+      "price": 44.95,
+      "original_price": 49.95,
+      "stock": 110,
+      "category_id": 5,
+      "rating": 4.7,
+      "review_count": 56789,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 28,
+      "name": "Dyson Airwrap Multi-Styler Complete",
+      "description": "Multiple hair types and styles. Coanda air styling and drying. 6 attachments included.",
+      "specifications": "Power: 1300W | Heat Settings: 3 | Airflow: 3 | Attachments: 6 | Voltage: 110V",
+      "price": 499.99,
+      "original_price": 599.99,
+      "stock": 20,
+      "category_id": 6,
+      "rating": 4.4,
+      "review_count": 23456,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 29,
+      "name": "CeraVe Moisturizing Cream 19 oz",
+      "description": "Developed with dermatologists. 3 essential ceramides and hyaluronic acid. 24-hour hydration.",
+      "specifications": "Size: 19 oz | Skin Type: All | Key Ingredients: Ceramides | Fragrance: Free",
+      "price": 16.99,
+      "original_price": 21.99,
+      "stock": 200,
+      "category_id": 6,
+      "rating": 4.7,
+      "review_count": 89012,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 30,
+      "name": "Oral-B iO Series 9 Electric Toothbrush",
+      "description": "Micro-vibration technology. AI-powered 3D tracking. Interactive display. 7 cleaning modes.",
+      "specifications": "Modes: 7 | Battery: 14 days | Timer: 2 min | Pressure Sensor: Yes | Charger: Magnetic",
+      "price": 249.99,
+      "original_price": 329.99,
+      "stock": 35,
+      "category_id": 6,
+      "rating": 4.5,
+      "review_count": 12345,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 31,
+      "name": "La Roche-Posay Anthelios Sunscreen SPF 60",
+      "description": "Lightweight sunscreen with Cell-Ox Shield. Water resistant 80 min. Oil-free. Sensitive skin.",
+      "specifications": "SPF: 60 | Size: 1.7 fl oz | Water Resistant: 80 min | Oil-Free: Yes | PA: ++++",
+      "price": 29.99,
+      "original_price": 35.99,
+      "stock": 150,
+      "category_id": 6,
+      "rating": 4.6,
+      "review_count": 34567,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    },
+    {
+      "id": 32,
+      "name": "Philips Norelco OneBlade Face + Body",
+      "description": "Trim, edge, shave any length. Dual-sided blade for face and body. Wet and dry use.",
+      "specifications": "Blades: 3 | Battery: 60 min | Charge: 4 hrs | Water Resistant: Yes | Combs: 4",
+      "price": 49.96,
+      "original_price": 64.96,
+      "stock": 75,
+      "category_id": 6,
+      "rating": 4.3,
+      "review_count": 45678,
+      "created_at": "2026-03-29T10:54:05.223Z"
+    }
+  ],
+  "product_images": [
+    {
+      "id": 1,
+      "product_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 2,
+      "product_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 3,
+      "product_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+      "display_order": 3
+    },
+    {
+      "id": 4,
+      "product_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 5,
+      "product_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 6,
+      "product_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600",
+      "display_order": 3
+    },
+    {
+      "id": 7,
+      "product_id": 3,
+      "image_url": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 8,
+      "product_id": 3,
+      "image_url": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 9,
+      "product_id": 3,
+      "image_url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",
+      "display_order": 3
+    },
+    {
+      "id": 10,
+      "product_id": 4,
+      "image_url": "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 11,
+      "product_id": 4,
+      "image_url": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 12,
+      "product_id": 5,
+      "image_url": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 13,
+      "product_id": 5,
+      "image_url": "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 14,
+      "product_id": 6,
+      "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 15,
+      "product_id": 6,
+      "image_url": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 16,
+      "product_id": 7,
+      "image_url": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 17,
+      "product_id": 7,
+      "image_url": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 18,
+      "product_id": 8,
+      "image_url": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 19,
+      "product_id": 8,
+      "image_url": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 20,
+      "product_id": 9,
+      "image_url": "https://images.unsplash.com/photo-1554244933-d876deb6b2ff?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 21,
+      "product_id": 9,
+      "image_url": "https://images.unsplash.com/photo-1524578271613-d550eacf6090?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 22,
+      "product_id": 10,
+      "image_url": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 23,
+      "product_id": 11,
+      "image_url": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 24,
+      "product_id": 12,
+      "image_url": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 25,
+      "product_id": 13,
+      "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 26,
+      "product_id": 13,
+      "image_url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 27,
+      "product_id": 14,
+      "image_url": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 28,
+      "product_id": 14,
+      "image_url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 29,
+      "product_id": 15,
+      "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 30,
+      "product_id": 16,
+      "image_url": "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 31,
+      "product_id": 16,
+      "image_url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 32,
+      "product_id": 17,
+      "image_url": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 33,
+      "product_id": 18,
+      "image_url": "https://images.unsplash.com/photo-1585515320310-259814833e62?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 34,
+      "product_id": 19,
+      "image_url": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 35,
+      "product_id": 20,
+      "image_url": "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 36,
+      "product_id": 21,
+      "image_url": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 37,
+      "product_id": 21,
+      "image_url": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 38,
+      "product_id": 22,
+      "image_url": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 39,
+      "product_id": 23,
+      "image_url": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 40,
+      "product_id": 24,
+      "image_url": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 41,
+      "product_id": 24,
+      "image_url": "https://images.unsplash.com/photo-1510017803434-a899398421b3?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 42,
+      "product_id": 25,
+      "image_url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 43,
+      "product_id": 26,
+      "image_url": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 44,
+      "product_id": 27,
+      "image_url": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 45,
+      "product_id": 28,
+      "image_url": "https://images.unsplash.com/photo-1522338242992-e1a54571e8cc?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 46,
+      "product_id": 28,
+      "image_url": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600",
+      "display_order": 2
+    },
+    {
+      "id": 47,
+      "product_id": 29,
+      "image_url": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 48,
+      "product_id": 30,
+      "image_url": "https://images.unsplash.com/photo-1559590523-d1dbbab12cd3?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 49,
+      "product_id": 31,
+      "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600",
+      "display_order": 1
+    },
+    {
+      "id": 50,
+      "product_id": 32,
+      "image_url": "https://images.unsplash.com/photo-1621607512214-68297480165e?w=600",
+      "display_order": 1
+    }
+  ],
+  "cart_items": [],
+  "orders": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "order_number": "AMZ-MNBNDNF3-N0TK",
+      "total_amount": 249,
+      "status": "Placed",
+      "shipping_name": "John Doe",
+      "shipping_address": "123 Main St, Apartment 4B",
+      "shipping_city": "New York",
+      "shipping_state": "NY",
+      "shipping_zip": "10001",
+      "shipping_phone": "9876543210",
+      "created_at": "2026-03-29T10:59:59.823Z"
+    }
+  ],
+  "order_items": [
+    {
+      "id": 1,
+      "order_id": 1,
+      "product_id": 4,
+      "quantity": 1,
+      "price_at_purchase": 249
+    }
+  ],
+  "counters": {
+    "users": 1,
+    "categories": 6,
+    "products": 32,
+    "product_images": 50,
+    "cart_items": 1,
+    "orders": 1,
+    "order_items": 1
+  }
+}

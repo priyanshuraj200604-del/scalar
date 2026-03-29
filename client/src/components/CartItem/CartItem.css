@@ -1,0 +1,137 @@
+.cart-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--amazon-border-light);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-image {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.cart-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cart-item-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--amazon-link);
+  line-height: 1.4;
+  margin: 0;
+  cursor: pointer;
+}
+.cart-item-title:hover {
+  color: var(--amazon-link-hover);
+  text-decoration: underline;
+}
+
+.cart-item-stock .in-stock {
+  color: var(--amazon-in-stock);
+  font-size: 12px;
+  font-weight: 500;
+}
+.cart-item-stock .out-of-stock {
+  color: var(--amazon-deal-red);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cart-item-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cart-item-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--amazon-text);
+}
+
+.cart-item-mrp {
+  font-size: 12px;
+  color: var(--amazon-text-secondary);
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quantity-selector label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.quantity-select {
+  padding: 4px 8px;
+  border: 1px solid var(--amazon-border);
+  border-radius: 8px;
+  background: #f0f2f2;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.quantity-select:focus {
+  border-color: var(--amazon-link);
+  box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.15);
+  outline: none;
+}
+
+.cart-item-divider {
+  color: #ddd;
+  font-size: 16px;
+}
+
+.cart-item-delete {
+  background: none;
+  border: none;
+  color: var(--amazon-link);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.cart-item-delete:hover {
+  color: var(--amazon-link-hover);
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .cart-item {
+    gap: 12px;
+  }
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+  }
+  .cart-item-title {
+    font-size: 14px;
+  }
+}
